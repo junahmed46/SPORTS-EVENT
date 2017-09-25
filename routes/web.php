@@ -12,5 +12,40 @@
 */
 
 $app->get('/', function () use ($app) {
-    return $app->version();
+    echo "nothing to display here";
 });
+
+
+
+$app->group(['prefix' => 'api/v1','namespace' => '\App\Http\Controllers'], function($app)
+{
+
+/*------------------------------------------------------------------------------------------
+ * All the inside here are prefix with api/v1 so in future we can change version plus the namespace for controller code.
+ *
+ *------------------------------------------------------------------------------------------
+ */
+
+
+
+    // Sports Events Routes
+
+    $app->get('sport-event','SportEventController@index');
+
+    $app->get('sport-event/{id}','SportEventController@getSportEvent');
+
+    $app->post('sport-event','SportEventController@createSportEvent');
+
+    $app->put('sport-event/{id}','SportEventController@updateSportEvent');
+
+    $app->delete('sport-event/{id}','SportEventController@deleteSportEvent');
+
+    // this is service port which will get data from Walls, as my database is meant
+        $app->post('athlete-progress','AthleteProgressController@createAthleteProgress');
+        $app->post('test-server','AthleteProgressController@createAthleteProgress'); // just created alias to keep think simples
+
+
+
+});
+
+

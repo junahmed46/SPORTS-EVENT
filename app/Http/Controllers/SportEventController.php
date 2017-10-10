@@ -9,12 +9,17 @@ use Illuminate\Http\Request;
 
 class SportEventController extends Controller
 {
-
+    /**
+     * Get all the list of events. (for now there is no pagination implemented as not required)
+     * @param  nothing
+     * @return if there are events return list of events else No event found.
+     */
     public function index(Request $request)
     {
 
         $se_repository = new SportEventRepository();
         $event  = $se_repository->get_all_event();
+
 
         if($event)
             return render_json(['events'=>$event]);
@@ -22,6 +27,12 @@ class SportEventController extends Controller
             return render_json(get_error_format('No event found'));
 
     }
+
+    /**
+     * Return the detail of event including Athlets in the event
+     * @param  event_id
+     * @return Event with list of athlets. No event found in case of no event.
+     */
 
     public function getSportEvent(Request $request, $id=false)
     {
@@ -36,26 +47,24 @@ class SportEventController extends Controller
             return render_json(get_error_format('No event found'));
 
     }
+   /**
+     * Will create Event
+     * @param  nothing
+     * @return Return created event
+     */
 
     public function createSportEvent(Request $request)
     {
-        // Create New Event
        $se_repository = new SportEventRepository();
        $event  = $se_repository->create_sport_event();
-
-        // Assign 10 to 15 Random Players
-       $sea_repository = new SportEventAthletesRepository();
-       $sea_repository->get_and_assign_rand_athlete($event['id']);
-
-
        return render_json(['event'=>$event]);
-
     }
 
-/*
- * Below Function we don't need as not required in requirement
- *
- */
+
+     /**
+     * Below Function we don't need as not required in requirement
+     *
+     */
     public function updateSportEvent()
     {
         // In case we need update sport event, in my case we don't

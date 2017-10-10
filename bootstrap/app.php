@@ -27,6 +27,8 @@ $app = new Laravel\Lumen\Application(
 
  $app->withEloquent();
 
+ $app->configure('myconfig');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -59,9 +61,9 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
+ $app->middleware([
+    App\Http\Middleware\CORS::class
+ ]);
 
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
@@ -96,5 +98,6 @@ $app->singleton(
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';
 });
+
 
 return $app;

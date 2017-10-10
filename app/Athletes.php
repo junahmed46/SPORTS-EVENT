@@ -10,6 +10,9 @@ class Athletes extends Model
         'first_name', 'sur_name',
     ];
 
+    /**
+     * Defining relation of athlets with sport_event_athlete table
+     */
     public function athlets()
     {
         return $this->hasMany('App\SportEventAthlete','A_id');

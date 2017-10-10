@@ -42,9 +42,9 @@ class SportEventAthletesRepository {
      * @param  identifer -> normally md5 32 (Should be present in  Sport event Athletes table)
      * @return id of Sport event Athletes table row or false
      */
-    public function get_id_from_identifier($identifer)
+    public function get_athlete_by_identifier($identifer)
     {
-        return SportEventAthlete::where('code_identifier','=',$identifer)->first()->id;
+        return SportEventAthlete::where('code_identifier','=',$identifer)->first();
     }
 
     /**
@@ -53,9 +53,10 @@ class SportEventAthletesRepository {
      * @param  identifer -> normally md5 32 (Should be present in  Sport event Athletes table)
      * @return id of Sport event Athletes table row or false
      */
-    public function get_last_step($sea_id)
+    public function get_last_step($se_id)
     {
-        return AthleteProgress::where('SEA_id','=',$sea_id)->limit(1)->orderby('id','desc')->first();
+        return AthleteProgress::join('sport_event_athletes as sea','athlete_progress.SEA_id','=','sea.id')
+            ->where('SE_id','=',$se_id)->orderby('athlete_progress.id','desc')->first();
     }
 
 

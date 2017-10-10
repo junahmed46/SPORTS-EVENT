@@ -1,7 +1,7 @@
 <?php
 namespace App\Repositories;
 use App\SportEvent;
-
+use Carbon\Carbon;
 class SportEventRepository {
     /**
      * Get a new Sport Event
@@ -48,17 +48,28 @@ class SportEventRepository {
      */
     public function get_all_event()
     {
-        $sport_event = SportEvent::with([
-            'sport_event_athlets' => function($q) {
-                $q->join('athletes as a', 'a.id', '=', 'sport_event_athletes.A_id')
-                    ->select('sport_event_athletes.*', 'a.first_name','a.sur_name');
-            }
-        ])->orderby('id','desc')->get();
+        $events = SportEvent::orderby('id','desc')->get();
 
-        if($sport_event)
-            return $sport_event->toArray();
-        else
-            return false;
+        return $events?$this->_format_event($events)->toArray():false;
+    }
+
+
+    /**
+     * This will apply date format to events
+     * @param  sport event object
+     * @return sport event object
+     */
+
+    function _format_event($event)
+    {
+
+        if(count($event))
+            foreach($event as $key=>$val)
+            {
+                $event[$key]->event_start = Carbon::createFromFormat('U.u',$event[$key]->event_start)->format(config('myconfig.default_timeformat'));
+            }
+
+        return $event;
     }
 
 }

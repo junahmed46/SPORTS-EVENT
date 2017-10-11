@@ -136,7 +136,7 @@ class AthleteProgressController extends Controller
 
     public function insert_all_dummy_data(Request $request, $id)
     {
-        sleep(5); // intentionally added 5 sec
+        //sleep(5); // intentionally added 5 sec
 
            if(is_numeric($id))
            {
@@ -150,30 +150,49 @@ class AthleteProgressController extends Controller
 
                        // below two line will determine who is going to finish corridor line first, it will suffle current atlets.
                        $athlet_range = range(0, $count-1);
-                        shuffle($athlet_range);
+                       shuffle($athlet_range);
 
-                        $current_time = microtime(true);
+
+                       /*
+                        * PICK 6 athlets
+                        * Top 3 will be quick to finish line
+                        * Last 3 will be lazy to finish line
+                       */
+
+                       $quick_and_lazy_athlets = array_random($athlet_range, 6);
+                       $i_counter = 0;
+
+                       $current_time = microtime(true); // starting time for all Athlets
 
                         $finish_array = [];
-                       /*
-                        * There will be 2 athlets who will quickly cross finish line, one will be rand between 2 to 5 and other will be between 6 to 9
-                        * With Quick finish line crosser you will be able to see sorting effect
-                        */
 
-                        $quick_line_crosser = [rand(2,5),rand(6,9)];
+
 
                         // foreach will assign finish line and corridor time to athlets
-                        foreach($athlet_range as $finish_num)
+                        foreach($athlet_range as $key => $finish_num)
                         {
+
                             $chip_identifier = $event['sport_event_athlets'][$finish_num]['code_identifier'];
 
-                            // corridor finish with current time + random micro time between 800 to 1600
-                            $corridor_finish = $current_time  + (rand(8000,16000)/10000);
+                            // corridor finish with current time + random micro time from previous athlet 300 to 600 millisecond
+                            $corridor_finish = $current_time  + (rand(300,600)/1000); //kept very low intentionally
 
-                            if(in_array($finish_num,$quick_line_crosser))
-                                $line_finish = $corridor_finish + (rand(10001,15000)/10000); //quick finish line will cross line in 1 micro second to 15000
-                            else
-                                $line_finish = $corridor_finish + (rand(30000,40000)/10000); //other will take 3000 to 4000 microsecond
+                            if(in_array($key, $quick_and_lazy_athlets))
+                            {
+                                if($i_counter < 3) // Quick Crosser will cross finish line in 300 to 700 millisecond
+                                {
+                                    $line_finish = $corridor_finish + (rand(300,700)/1000);
+                                }
+                                else // Lazy Crosser will cross finish line in 4000 to 6000 millisecond
+                                {
+                                    $line_finish = $corridor_finish + (rand(4000,6000)/1000);
+                                }
+                                $i_counter++;
+
+                            } else  // Normal Crosser will cross finish line in 2000 to 4000 millisecond
+                            {
+                                $line_finish = $corridor_finish + (rand(2000,3000)/1000);
+                            }
 
 
                             $finish_array[$chip_identifier."_corridor"] = $corridor_finish;
@@ -205,6 +224,7 @@ class AthleteProgressController extends Controller
                             //TODO if got time apply time differnece here
                             dispatch($job);
                         }
+
                        $response = ['message'=>'done'];
                    }
                    else

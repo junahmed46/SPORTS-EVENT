@@ -97,7 +97,7 @@ $app->group(['prefix' => 'api/v1','namespace' => '\App\Http\Controllers'], funct
 
     /*
     |--------------------------------------------------------------------------
-    | Dummy data insertion and Dummy data deletion
+    | Dummy data insertion
     |--------------------------------------------------------------------------
     | 'dummy-auto-play/{id}' is something will create dummy values, by create it doesn't mean it will call or insert anything in tables
     |     The Values will trigger Queue in Laravel define in App/Jobs/SportEventDemo

@@ -43,10 +43,6 @@ https://github.com/junahmed46/SPORTS-EVENT/blob/master/Database.md
 
 ## APIs information 
 
-for APIs information kindly visit 
-
-## API REPO 
-
 Provided APIs details are mentioned in below URLs
 
 https://github.com/junahmed46/SPORTS-EVENT/blob/master/apiary.apib

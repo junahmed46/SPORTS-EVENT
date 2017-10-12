@@ -162,13 +162,13 @@ class AthleteProgressController extends Controller
                        $quick_and_lazy_athlets = array_random($athlet_range, 6);
                        $i_counter = 0;
 
-                       $current_time = microtime(true); // starting time for all Athlets
+                       $current_time = microtime(true); // starting time for all Athletes
 
                         $finish_array = [];
 
 
 
-                        // foreach will assign finish line and corridor time to athlets
+                        // foreach will assign finish line and corridor time to athletes
                         foreach($athlet_range as $key => $finish_num)
                         {
 
@@ -189,7 +189,7 @@ class AthleteProgressController extends Controller
                                 }
                                 $i_counter++;
 
-                            } else  // Normal Crosser will cross finish line in 2000 to 4000 millisecond
+                            } else  // Normal Crosser will cross finish line in 2000 to 3000 millisecond
                             {
                                 $line_finish = $corridor_finish + (rand(2000,3000)/1000);
                             }

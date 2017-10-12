@@ -3,7 +3,7 @@ All the tables are setup via migrations so you need to run `php artisan migrate`
 
 ## Tables
 
-### sport_events
+### 1. sport_events
 sport_event just keep basic information for event, more fields can be added later
 
 
@@ -20,7 +20,7 @@ sport_event just keep basic information for event, more fields can be added late
 1. Because the server i have is using MySQL version below 5.6 
 2. Although MySQL support micro date format now but to quickly do some calculations and to have too sorting result i find it to be best 
 
-### athletes
+### 2. athletes
 This is basic table to keep information of athletes. to run example there should be record in this table. 
 
 
@@ -33,7 +33,7 @@ This is basic table to keep information of athletes. to run example there should
 | updated_at    | timestamp     | last updating time                    |
 
 
-### sport_event_athletes
+### 3. sport_event_athletes
 The information that which Athlet is athached with which event, we are keep this table. the relation between 
 events and athletes are *Many to Many* so you can many athelts doing many events 
 
@@ -50,7 +50,7 @@ events and athletes are *Many to Many* so you can many athelts doing many events
 
 
 
-### athlete_progress
+### 4. athlete_progress
 This table will have all the information related to which athlete finishes the corridor or finish line when
 
 | 	Fields        | Type                    | Purpose                                                                               |
@@ -71,11 +71,11 @@ step else will moved to next
 
 ## Some other useful tables
 
-### migrations 
+### 5.  migrations 
 
 To maintain laravel micrations, more detail [here](https://laravel.com/docs/5.4/migrations)
 
-### jobs and failed_jobs
+### 6. 7. jobs and failed_jobs
 Laravel tables for Queues execution, more detail [here](https://laravel.com/docs/5.4/queues) 
 
 

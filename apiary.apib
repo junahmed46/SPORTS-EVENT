@@ -66,6 +66,8 @@ For now there is nothing in request, in future events name and other attributes 
 
 This will return the Event detail including the lists of Athlets attached to Event. 
 
++ Parameters
+    + id (required, number) ... ID of the Event
 
 + Response 200 (application/json)
 
@@ -101,6 +103,286 @@ This will return the Event detail including the lists of Athlets attached to Eve
                     },
                 ],
             },
+            "success": true,
+            "status": 200
+        }
+        
++ Response 404 (application/json)        
+
+        {
+            "error": [
+                "No event found"
+            ],
+            "status": 404,
+            "success": true
+        }
+        
+
+## Sport Event Athlets [/sport-event-athletes/{event_id}]
+
+### Get All Athlets of Specific Event[GET]
+
+This will return the list of Athlets in particular event. Corridor and finish line cross will be also mentioned. 
+
++ Parameters
+    + event_id (required, number) ... ID of the Event
+    
++ Response 200 (application/json)        
+ 
+
+        {
+            "athlets": [
+                {
+                    "first_name": "Marchelle",
+                    "sur_name": "Janikowski",
+                    "code_identifier": "528dadfd15e1bb7ab80c6107fa6b1ee3",
+                    "corridor_done": true,
+                    "line_done": true
+                },
+                {
+                    "first_name": "Niki",
+                    "sur_name": "Gelly",
+                    "code_identifier": "25d47dd7fa57f6829ddd0b6c1d574657",
+                    "corridor_done": true,
+                    "line_done": true
+                }
+            ]
+        }
+        
+        
+
+## Sport Event Athlets [/sport-event/add-athlets/{id}]
+### Add Athlets to EVent[POST]
+
+This will randomly add 10 to 15 athlets from Athlets Table to Event
+
++ Parameters
+    + id (required, number) ... ID of the Event
+    
++ Response 200 (application/json)        
+ 
+        {
+            "event": {
+                "id": 1,
+                "event_start": "1507745438.2905",
+                "created_at": "2017-10-11 18:10:38",
+                "updated_at": "2017-10-11 18:10:38",
+                "completed": 0,
+                "sport_event_athlets": [
+                    {
+                    "id": 1,
+                    "SE_id": 1,
+                    "A_id": 46,
+                    "code_identifier": "528dadfd15e1bb7ab80c6107fa6b1ee3",
+                    "start_number": 1,
+                    "created_at": null,
+                    "updated_at": null,
+                    "first_name": "Marchelle",
+                    "sur_name": "Janikowski"
+                    },
+                    {
+                    "id": 2,
+                    "SE_id": 1,
+                    "A_id": 74,
+                    "code_identifier": "25d47dd7fa57f6829ddd0b6c1d574657",
+                    "start_number": 2,
+                    "created_at": null,
+                    "updated_at": null,
+                    "first_name": "Niki",
+                    "sur_name": "Gelly"
+                    },
+                ]
+            }
+        }    
+
++ Response 404 (application/json)        
+
+        {
+            "event": false,
+            "status": 404,
+            "success": true
+        }
+        
+        
+## Sport Event Data End point [/athlete-progress/data/{event_id}/{step}]
+
+### Athlets Crossing Data[GET]
+
+will return you current progress in the event.
+Step might confuse but its a core, this way we can easily fetch results in step for finish events, also we can make history.
+i can also use time in sec here in place of Step but in run time enviroment its better to not do too many calculations.
+
++ Parameters
+    + event_id (required, number) ... ID of the Event
+    + step (required, number) ... Data till which step
+    
++ Response 200 (application/json)        
+ 
+        {
+            "data": [
+                {
+                    "first_name": "Sly",
+                    "sur_name": "Berk",
+                    "start_number": 11,
+                    "corridor": "18:27:14 8867",
+                    "corridor_diff": "18:27:14 8867",
+                    "corridor_step": 1,
+                    "line": "",
+                    "line_diff": "",
+                    "current": false
+                },
+                {
+                    "first_name": "Juliet",
+                    "sur_name": "Lehrer",
+                    "start_number": 9,
+                    "corridor": "18:27:15 4307",
+                    "corridor_diff": " + 0.544",
+                    "corridor_step": 2,
+                    "line": "",
+                    "line_diff": "",
+                    "current": true
+                }
+            ],
+            "new_data": true, // so front end will able to know that now it need to call next step
+            "event_finish": false, // so front end stop calling if event finished
+            "success": true,
+            "status": 200
+        }
+    
+
++ Response 404 (application/json)        
+
+        {
+            0: 
+            {
+                "error": [
+                "Event doesn't exists"
+                ],
+            },
+            "success": true,
+            "status": 404
+        }
+
+        
+        
+## Delete the Atlets progress data [/destroy-dummy-data/{event_id}]
+
+### Delete [DELETE]
+
+DELETE destroy-dummy-data/{event_id} This will delete all the records of specific event
+
++ Parameters
+    + event_id (required, number) ... ID of the Event
+
++ Response 200 (application/json) 
+
+        {
+            "message": "Deleted successfully",
+            "success": true,
+            "status": 204
+        }
+
+## Test Server / Device Port [/test-server]
+
+### Device Signal reciever [POST]
+
+This is the Port from where data will be inserted to database, Once athlet crosses the line device will send data to this port
+
++ Request (application/json)
+
+        {
+            "chip_code": "b3e9c8a229d0e6762a850593a6d992e6",
+            "finish_type": "corridor",
+            "clock_time": "2017-10-04 22:13:21.075100",
+
+        }
+
+
++ Response 200 (application/json) 
+
+        {
+            "message": "Recorded Successfully1",
+            "success": true,
+            "status": 200
+        }
+
+
++ Response 400 (application/json) 
+
+        {
+            "errors": {
+                "chip_code": [
+                    "The selected code of the chip is invalid."
+                ],
+            },
+            "status": 400,
+            "success": false
+        }
+        
++ Response 400 (application/json) 
+       
+        {
+            "errors": {
+                "chip_code": [
+                    "The code of the chip field is required."
+                ],
+            },
+            "status": 400,
+            "success": false
+        }
+        
++ Response 400 (application/json) 
+       
+        {
+            "errors": {
+                "chip_code": [
+                    "The code of the chip field is required."
+                ],
+            },
+            "status": 400,
+            "success": false
+        }       
+
++ Response 400 (application/json) 
+       
+        {
+            "errors": {
+                "finish_type": [
+                    "The Finish type field is required."
+                ],
+            },
+            "status": 400,
+            "success": false
+        }       
+
++ Response 400 (application/json) 
+       
+        {
+            "errors": {
+                "clock_time": [
+                    "The clocl time field is required."
+                ],
+            },
+            "status": 400,
+            "success": false
+        }
+
+
+## Insert Dummy values. [/dummy-auto-play/{id}]
+
+### Fake Calls from Devices for Athlets progress [GET]
+
+is something will create dummy values, by create it doesn't mean it will call or insert anything in tables
+The Values will trigger Queue in Laravel define in App/Jobs/SportEventDemo
+The Queue will be added and will call TEST SERVER for all insertion
+
++ Parameters
+    + id (required, number) ... ID of the Event
+
++ Response 200 (application/json) 
+
+        {
+            "message": "done",
             "success": true,
             "status": 200
         }

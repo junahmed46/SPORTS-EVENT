@@ -37,48 +37,70 @@ once recived data, device send information to Port.
             "status": 200
         }
 
-### Create a New Question [POST]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Create Sport Events [POST]
+
+For now there is nothing in request, in future events name and other attributes can be added.
 
 + Request (application/json)
-
+        
         {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
         }
 
-+ Response 201 (application/json)
++ Response 200 (application/json)
 
-    + Headers
+        {
+            "event": {
+                "event_start": 1507764980.43,
+                "updated_at": "2017-10-11 23:36:20",
+                "created_at": "2017-10-11 23:36:20",
+                "id": 8
+            },
+            "success": true,
+            "status": 200
+        }
 
-            Location: /questions/2
+## Sport Event Detail [/sport-event/{id}]
 
-    + Body
+### Sport Event Detail + Atlets [GET]
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+This will return the Event detail including the lists of Athlets attached to Event. 
+
+
++ Response 200 (application/json)
+
+        {
+            "event": {
+                "id": 1,
+                "event_start": "1507737978.6899",
+                "created_at": "2017-10-11 16:06:18",
+                "updated_at": "2017-10-11 16:06:18",
+                "completed": 0,
+                "sport_event_athlets": [
                     {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+                        "id": 1,
+                        "SE_id": 1,
+                        "A_id": 97,
+                        "code_identifier": "f5853940df3aa0d49448e5fbbcd0e2c1",
+                        "start_number": 1,
+                        "created_at": null,
+                        "updated_at": null,
+                        "first_name": "Gwynne",
+                        "sur_name": "Odhams"
+                    },
+                    {
+                        "id": 2,
+                        "SE_id": 1,
+                        "A_id": 58,
+                        "code_identifier": "048dea559f8ccfb4eac6dcb96ef67790",
+                        "start_number": 2,
+                        "created_at": null,
+                        "updated_at": null,
+                        "first_name": "Melissa",
+                        "sur_name": "Dollimore"
+                    },
+                ],
+            },
+            "success": true,
+            "status": 200
+        }

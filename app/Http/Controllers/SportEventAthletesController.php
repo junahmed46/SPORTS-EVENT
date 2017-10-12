@@ -60,9 +60,10 @@ class SportEventAthletesController extends Controller
 
         $se_repository = new SportEventRepository();
         $event  = $se_repository->get_event_detail($id);
-
-        return render_json(['event'=>$event]);
-
+        if($event)
+            return render_json(['event'=>$event]);
+        else
+            return render_json(['event'=>$event,'status'=>404]);
     }
 
 }

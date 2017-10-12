@@ -37,7 +37,7 @@ function render_json($response)
     if(!isset($response['status']))
         $response['status'] =  200;
 
-    return response()->json($response, 200);
+    return response()->json($response);
 }
 
 

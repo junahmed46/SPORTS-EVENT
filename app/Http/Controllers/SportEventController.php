@@ -44,7 +44,12 @@ class SportEventController extends Controller
         if($event)
             return render_json(['event'=>$event]);
         else
-            return render_json(get_error_format('No event found'));
+        {
+            $res = get_error_format('No event found');
+            $res['status'] = 404;
+            return render_json($res);
+        }
+
 
     }
    /**

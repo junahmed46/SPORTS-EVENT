@@ -136,7 +136,7 @@ class AthleteProgressController extends Controller
 
     public function insert_all_dummy_data(Request $request, $id)
     {
-        //sleep(5); // intentionally added 5 sec
+        sleep(5); // intentionally added 5 sec
 
            if(is_numeric($id))
            {
@@ -354,7 +354,7 @@ class AthleteProgressController extends Controller
                     $response = ['data' => [] , 'new_data'=>false, 'event_finish'=>$event_finish];
             }
             else {
-                $response = get_error_format('Event doesn\'t exists');
+                $response = [get_error_format('Event doesn\'t exists')];
             }
 
         }
@@ -380,5 +380,6 @@ class AthleteProgressController extends Controller
             ->where('sea.SE_id','=',$event_id)
             ->delete();
         $response = ['message' => 'Deleted successfully'];
+        return render_json($response);
     }
 }

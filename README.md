@@ -37,6 +37,12 @@ find  -type f -exec chmod 644 {} \;
 find  -type d -exec chmod 755 {} \; 
 ```
 
+To keep Listening to Queue do run (for auto play only)
+```
+php artisan queue:listen
+```
+
+
 ## Database Information
 
 https://github.com/junahmed46/SPORTS-EVENT/blob/master/Database.md
